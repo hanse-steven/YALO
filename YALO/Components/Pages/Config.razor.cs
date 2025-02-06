@@ -20,20 +20,12 @@ public partial class Config
             JsReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "../Components/Pages/Config.razor.js");
             await JsReference.InvokeVoidAsync("addHandlers");
         }
+        else
+        {
+            await JsReference.InvokeVoidAsync("resize");
+        }
     }
     
-    public string GetStyle(ModuleDTO m)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.Append($"top: {m.Y}px;");
-        sb.Append($"left: {m.X}px;");
-        sb.Append($"width: {m.Width}px;");
-        sb.Append($"height: {m.Height}px;");
-        sb.Append($"line-height: {m.Height}px;");
-        sb.Append($"background-color: {m.Color};");
-        return sb.ToString();
-    }
-
     public async Task SavePosition()
     {
         List<ModuleDTO> modules = [];

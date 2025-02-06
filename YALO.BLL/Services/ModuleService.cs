@@ -22,4 +22,9 @@ public class ModuleService : IModuleService
     {
         _moduleRepository.SaveAll(modules.Select(m => m.ToEntity()));
     }
+
+    public void Delete(int id)
+    {
+        _moduleRepository.DeleteById(id);
+    }
 }

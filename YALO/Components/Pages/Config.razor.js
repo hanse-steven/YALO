@@ -24,7 +24,7 @@ export const getPositionDimension = () => {
     return data
 }
 
-const resize = (callback) => {
+export const resize = (callback) => {
     const screen = document.getElementById('screen')
     const rapport = screen.offsetWidth / screen.dataset.width
     

@@ -19,4 +19,11 @@ public class ModuleRepository : IModuleRepository
         string data = JsonSerializer.Serialize(modules);
         File.WriteAllText("Modules.json", data, Encoding.UTF8);
     }
+    
+    public void DeleteById(int id)
+    {
+        List<Module> modules = GetAll().ToList();
+        modules.RemoveAll(m => m.Id == id);
+        SaveAll(modules);
+    }
 }

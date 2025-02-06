@@ -1,3 +1,4 @@
+using MudBlazor.Services;
 using YALO.BLL.Interfaces;
 using YALO.BLL.Services;
 using YALO.Components;
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddMudServices();
 
 builder.Services.AddScoped<IModuleService, ModuleService>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();

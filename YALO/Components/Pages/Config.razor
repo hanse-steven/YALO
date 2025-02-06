@@ -5,36 +5,78 @@
 
 <PageTitle>Config</PageTitle>
 
-<h1>Config</h1>
-
-<div class="row mt-3">
-    <div class="col-md-12">
-        <button class="btn btn-primary" @onclick="SavePosition">Sauvegarder</button>
-    </div>
-</div>
-
-<div class="row mt-3">
-    <div class="col-md-12">
+<MudContainer Class="pt-2">
+    <MudText Typo="Typo.h4" Class="mb-4">Configuration des modules</MudText>
+    
+    <MudPaper Elevation="5" Class="rounded">
         <div class="screen" id="screen" data-width="1920" data-height="1080">
             @foreach (ModuleDTO m in _moduleService.GetAll().Select(m => m.ToDTO()))
             {
-                <div 
-                    id="@m.Id" 
-                    class="rectangle" 
-                    style="
-                        top: @(m.Y)px;
-                        left: @(m.X)px;
-                        width: @(m.Width)px;
-                        height: @(m.Height)px;
-                        background-color: @(m.Color);
-                    " 
-                    data-width="@m.Width" 
-                    data-height="@m.Height"
-                    data-top="@m.Y"
-                    data-left="@m.X"
-                >@m.Name
-                </div>
+            <div
+                id="@m.Id"
+                class="rectangle rounded"
+                style="
+                    top: @(m.Y)px;
+                    left: @(m.X)px;
+                    width: @(m.Width)px;
+                    height: @(m.Height)px;
+                    background-color: @(m.Color);
+                    "
+                data-width="@m.Width"
+                data-height="@m.Height"
+                data-top="@m.Y"
+                data-left="@m.X"
+                onmousedown="@(() => SelectModule(m))"
+            >@m.Name
+            </div>
             }
         </div>
+    </MudPaper>
+    
+    <div style="position:fixed; bottom:50px;right:50px; display: flex; gap: 10px;">
+        
+        @if (_selected is not null)
+        {
+            <MudFab Color=@Color.Primary StartIcon=@Icons.Material.Filled.Deselect Size="Size.Medium" @onclick="UnselectItems"/>
+            <MudFab Color=@Color.Warning StartIcon=@Icons.Material.Filled.Edit Size="Size.Medium"/>
+            <MudFab Color=@Color.Error StartIcon=@Icons.Material.Filled.Delete Size="Size.Medium" @onclick="DeleteModule"/>
+        }
+        <MudFab Color=@Color.Success StartIcon=@Icons.Material.Filled.Save OnClick="SavePosition" Size="Size.Medium"/>
+        @if (_selected is null)
+        {
+            <MudFab Color=@Color.Primary StartIcon=@Icons.Material.Filled.Add Label="Ajouter un module"/>
+        }
     </div>
-</div>
+</MudContainer>
+
+@code {
+    private ModuleDTO? _selected = null;
+    [Inject] private IDialogService _dialogService { get; set; }
+
+    private void SelectModule(ModuleDTO m)
+    {
+        this._selected = m; 
+        StateHasChanged();
+    }
+    
+    private void UnselectItems()
+    {
+        this._selected = null;
+        StateHasChanged();
+    }
+
+    private async Task DeleteModule()
+    {
+        if (_selected is not null)
+        {
+            bool? result = await _dialogService.ShowMessageBox(
+                "Suppression", 
+                "Voulez-vous vraiment supprimer ce module ?", 
+                yesText: "Oui", 
+                cancelText: "Non"
+            );
+            if (result == true) 
+                this._moduleService.Delete(_selected.Id);
+        }
+    }
+}

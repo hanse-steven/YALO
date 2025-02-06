@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YALO", "YALO\YALO.csproj", "{92552EE3-0B81-4E1A-87F2-335F064DA640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YALO.BLL", "YALO.BLL\YALO.BLL.csproj", "{1E50D984-46A8-4580-9F34-AD9E2983C212}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YALO.DAL", "YALO.DAL\YALO.DAL.csproj", "{0F8A9534-3256-4AD3-9F31-E4060E9411AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92552EE3-0B81-4E1A-87F2-335F064DA640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92552EE3-0B81-4E1A-87F2-335F064DA640}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92552EE3-0B81-4E1A-87F2-335F064DA640}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92552EE3-0B81-4E1A-87F2-335F064DA640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E50D984-46A8-4580-9F34-AD9E2983C212}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E50D984-46A8-4580-9F34-AD9E2983C212}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E50D984-46A8-4580-9F34-AD9E2983C212}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E50D984-46A8-4580-9F34-AD9E2983C212}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F8A9534-3256-4AD3-9F31-E4060E9411AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8A9534-3256-4AD3-9F31-E4060E9411AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8A9534-3256-4AD3-9F31-E4060E9411AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8A9534-3256-4AD3-9F31-E4060E9411AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

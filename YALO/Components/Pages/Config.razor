@@ -1,0 +1,41 @@
+﻿@page "/config"
+@using YALO.DTOs
+@using YALO.Mappers
+@rendermode InteractiveServer
+
+<PageTitle>Config</PageTitle>
+
+<h1>Config</h1>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <button class="btn btn-primary" @onclick="SavePosition">Sauvegarder</button>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="screen" id="screen" data-width="1920" data-height="1080">
+            @foreach (ModuleDTO m in _moduleService.GetAll().Select(m => m.ToDTO()))
+            {
+                <div 
+                    id="@m.Id" 
+                    class="rectangle" 
+                    style="
+                        top: @(m.Y)px;
+                        left: @(m.X)px;
+                        width: @(m.Width)px;
+                        height: @(m.Height)px;
+                        line-height: @(m.Height)px;
+                        background-color: @(m.Color);
+                    " 
+                    data-width="@m.Width" 
+                    data-height="@m.Height"
+                    data-top="@m.Y"
+                    data-left="@m.X"
+                >@m.Name
+                </div>
+            }
+        </div>
+    </div>
+</div>

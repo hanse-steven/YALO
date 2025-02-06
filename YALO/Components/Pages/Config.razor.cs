@@ -20,10 +20,8 @@ public partial class Config
             JsReference = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "../Components/Pages/Config.razor.js");
             await JsReference.InvokeVoidAsync("addHandlers");
         }
-        await JsReference.InvokeVoidAsync("resize");
     }
     
-
     public string GetStyle(ModuleDTO m)
     {
         StringBuilder sb = new StringBuilder();

@@ -1,14 +1,11 @@
-﻿const screen = document.getElementById('screen')
+﻿export function addHandlers() {
+    document.getElementById('screen').addEventListener('mousemove', (e) => OnMouseMove(e))
+    window.addEventListener('resize', () => resize())
 
-export function addHandlers() {
-    screen.addEventListener('mousemove', (e) => OnMouseMove(e))
-    
     resize((o) => {
         o.addEventListener('mouseup', () => OnMouseUp())
         o.addEventListener('mousedown', (e) => OnMouseDown(e, o.id.toString()))
     })
-    
-    window.addEventListener('resize', () => resize())
 }
 
 export function getPositionDimension() {
@@ -28,9 +25,16 @@ export function getPositionDimension() {
 }
 
 export function resize(callback) {
+    const screen = document.getElementById('screen')
     const rapport = screen.offsetWidth / screen.dataset.width
-    console.log(screen.offsetWidth)
-    console.log(screen.dataset.width)
+    
+    document.querySelectorAll('.rectangle').forEach((o) => {
+        o.style.width = `${o.dataset.width*rapport}px`
+        o.style.height = `${o.dataset.height*rapport}px`
+        o.style.left = `${o.dataset.left*rapport}px`
+        o.style.top = `${o.dataset.top*rapport}px`
+        if (callback) callback(o)
+    })
 }
 
 let lastSelectedElement = null
@@ -42,6 +46,7 @@ const OnMouseUp = () => {
     if (draggedElement) {
         const left = parseFloat(draggedElement.style.left.replace('px',''))
         const top = parseFloat(draggedElement.style.top.replace('px',''))
+        const screen = document.getElementById('screen')
         const rapport = (screen.dataset.width / screen.offsetWidth).toFixed(2)
         
         draggedElement.dataset.left = (left * rapport).toFixed(2)
@@ -66,8 +71,7 @@ const OnMouseDown = (event, module) => {
 
 const OnMouseMove = (event) =>  {
     if (draggedElement) {
-        const screen = document.getElementById('screen')
-        const screenRect = screen.getBoundingClientRect()
+        const screenRect = document.getElementById('screen').getBoundingClientRect()
 
         let newLeft = event.clientX - offsetX;
         let newTop = event.clientY - offsetY;

@@ -1,4 +1,4 @@
-﻿export function addHandlers() {
+﻿export const addHandlers = () => {
     document.getElementById('screen').addEventListener('mousemove', (e) => OnMouseMove(e))
     window.addEventListener('resize', () => resize())
 
@@ -8,7 +8,7 @@
     })
 }
 
-export function getPositionDimension() {
+export const getPositionDimension = () => {
     let data = []
     document.querySelectorAll('.rectangle').forEach((o) => {
         data.push({
@@ -24,7 +24,7 @@ export function getPositionDimension() {
     return data
 }
 
-export function resize(callback) {
+const resize = (callback) => {
     const screen = document.getElementById('screen')
     const rapport = screen.offsetWidth / screen.dataset.width
     

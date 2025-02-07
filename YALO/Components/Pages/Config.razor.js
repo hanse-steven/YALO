@@ -1,5 +1,9 @@
 ﻿export const addHandlers = () => {
-    document.getElementById('screen').addEventListener('mousemove', (e) => OnMouseMove(e))
+    const screen = document.getElementById('screen')
+    screen.addEventListener('mousemove', (e) => OnMouseMove(e))
+    
+    new ResizeObserver(() => resize()).observe(screen)
+    
     window.addEventListener('resize', () => resize())
 
     resize((o) => {
@@ -35,6 +39,13 @@ export const resize = (callback) => {
         o.style.top = `${o.dataset.top*rapport}px`
         if (callback) callback(o)
     })
+}
+
+export const unselectItem = () => {
+    if (lastSelectedElement) {
+        lastSelectedElement.classList.remove('isSelected')
+        lastSelectedElement = null
+    }
 }
 
 let lastSelectedElement = null

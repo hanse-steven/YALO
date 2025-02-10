@@ -6,6 +6,8 @@ using YALO.DAL.Interfaces;
 using YALO.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

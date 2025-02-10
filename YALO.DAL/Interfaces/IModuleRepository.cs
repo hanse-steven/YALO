@@ -1,10 +1,7 @@
-﻿using YALO.DAL.Entities;
-
-namespace YALO.DAL.Interfaces;
+﻿namespace YALO.DAL.Interfaces;
 
 public interface IModuleRepository
 {
-    IEnumerable<Module> GetAll();
-    public void SaveAll(IEnumerable<Module> modules);
-    public void DeleteById(int id);
+    string GetAll();
+    public void SaveAll(string modules);
 }

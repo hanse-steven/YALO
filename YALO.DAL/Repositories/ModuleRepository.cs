@@ -1,29 +1,16 @@
-﻿using System.Text;
-using System.Text.Json;
-using YALO.DAL.Entities;
-using YALO.DAL.Interfaces;
+﻿using YALO.DAL.Interfaces;
 
 namespace YALO.DAL.Repositories;
 
 public class ModuleRepository : IModuleRepository
 {
-    public IEnumerable<Module> GetAll()
+    public string GetAll()
     {
-        string data = File.ReadAllText("Modules.json", Encoding.UTF8);
-        Module[] modules = JsonSerializer.Deserialize<Module[]>(data)!;
-        return modules;
+        return "";
     }
     
-    public void SaveAll(IEnumerable<Module> modules)
+    public void SaveAll(string modules)
     {
-        string data = JsonSerializer.Serialize(modules);
-        File.WriteAllText("Modules.json", data, Encoding.UTF8);
-    }
-    
-    public void DeleteById(int id)
-    {
-        List<Module> modules = GetAll().ToList();
-        modules.RemoveAll(m => m.Id == id);
-        SaveAll(modules);
+        
     }
 }

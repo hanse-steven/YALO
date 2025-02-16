@@ -15,4 +15,11 @@
       <PackageReference Include="MudBlazor" Version="8.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Modules\TestLibraryYALO.dll" />
+      <EmbeddedResource Include="Modules\TestLibraryYALO.dll">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>

@@ -6,7 +6,11 @@
     
     window.addEventListener('resize', () => resize())
 
-    resize((o) => {
+    resize()
+}
+
+export const addListenerRectangle = () => {
+    document.querySelectorAll('.rectangle').forEach((o) => {
         o.addEventListener('mouseup', () => OnMouseUp())
         o.addEventListener('mousedown', (e) => OnMouseDown(e, o.id.toString()))
     })
@@ -16,19 +20,17 @@ export const getPositionDimension = () => {
     let data = []
     document.querySelectorAll('.rectangle').forEach((o) => {
         data.push({
-            Id: parseInt(o.id),
-            Name: o.innerText,
+            Id: o.id,
             X: parseInt(o.dataset.left),
             Y: parseInt(o.dataset.top),
             Width: parseInt(o.dataset.width),
             Height: parseInt(o.dataset.height),
-            Color: o.style.backgroundColor
         })
     })
     return data
 }
 
-export const resize = (callback) => {
+export const resize = () => {
     const screen = document.getElementById('screen')
     const rapport = screen.offsetWidth / screen.dataset.width
     
@@ -37,7 +39,6 @@ export const resize = (callback) => {
         o.style.height = `${o.dataset.height*rapport}px`
         o.style.left = `${o.dataset.left*rapport}px`
         o.style.top = `${o.dataset.top*rapport}px`
-        if (callback) callback(o)
     })
 }
 

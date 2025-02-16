@@ -1,0 +1,41 @@
+﻿@using System.Text.RegularExpressions
+<MudDialog>
+    <DialogContent>
+        <MudSelect T="Type" Label="Module" @bind-Value="_selectedValue" Variant="Variant.Outlined" SelectedValuesChanged="SelectedValueChanged">
+            @foreach (var (key, _) in _parametersRegistry)
+            {
+                <MudSelectItem Value="@key">
+                    @(Regex.Replace(key.Name, "([A-Z])", " $1").Trim())
+                </MudSelectItem>
+            }
+        </MudSelect>
+
+        @if (_selectedValue is not null)
+        {
+            <MudTextField T="string" Label="Nom" Variant="Variant.Outlined" Immediate="true" @bind-Value="_name"/>
+            
+            foreach (var (name, type) in _parametersRegistry[_selectedValue])
+            {
+                @switch (type.Name.ToLower())
+                {
+                    case "double":
+                    case "single":
+                        <MudNumericField T="string" Format="F1" Label="@name" Variant="Variant.Outlined" Immediate="true" ValueChanged="@((value) => ValueChanged(name, value))"/>
+                        break;
+                    
+                    case "int32":
+                        <MudNumericField T="string" Label="@name" Variant="Variant.Outlined" Immediate="true" ValueChanged="@((value) => ValueChanged(name, value))" />
+                        break;
+                        
+                    default:
+                        <MudTextField T="string" Label="@name" Variant="Variant.Outlined" Immediate="true" ValueChanged="@((value) => ValueChanged(name, value))" />
+                        break;
+                }
+            }
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -1,0 +1,18 @@
+﻿<MudDialog>
+    <DialogContent>
+        <EditForm Model="@Module" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudTextField T="string" Label="Nom" @bind-Value="Module.Name" Variant="Variant.Outlined"/>
+
+            @foreach (var (key, _) in Module.Parameters)
+            {
+                <MudTextField T="string" Label="@key" @bind-Value="@Module.Parameters[key]" Variant="Variant.Outlined"/>
+            }
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+

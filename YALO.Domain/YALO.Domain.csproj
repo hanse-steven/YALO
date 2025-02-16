@@ -6,8 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\YALO.Domain\YALO.Domain.csproj" />
-    </ItemGroup>
-
 </Project>

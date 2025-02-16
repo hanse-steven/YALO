@@ -1,7 +1,9 @@
-﻿namespace YALO.DAL.Interfaces;
+﻿using YALO.Domain.Models;
+
+namespace YALO.DAL.Interfaces;
 
 public interface IModuleRepository
 {
-    string GetAll();
-    public void SaveAll(string modules);
+    public IEnumerable<Module> GetAll();
+    public void SaveAll(IEnumerable<Module> modules);
 }

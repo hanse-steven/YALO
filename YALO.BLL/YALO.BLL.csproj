@@ -8,10 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\YALO.DAL\YALO.DAL.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Mappers\" />
+      <ProjectReference Include="..\YALO.Domain\YALO.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>

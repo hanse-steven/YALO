@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YALO.BLL", "YALO.BLL\YALO.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YALO.DAL", "YALO.DAL\YALO.DAL.csproj", "{0F8A9534-3256-4AD3-9F31-E4060E9411AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YALO.Domain", "YALO.Domain\YALO.Domain.csproj", "{FA0CF73C-11A8-4D08-8970-5F962AA38982}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{0F8A9534-3256-4AD3-9F31-E4060E9411AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F8A9534-3256-4AD3-9F31-E4060E9411AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F8A9534-3256-4AD3-9F31-E4060E9411AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA0CF73C-11A8-4D08-8970-5F962AA38982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA0CF73C-11A8-4D08-8970-5F962AA38982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA0CF73C-11A8-4D08-8970-5F962AA38982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA0CF73C-11A8-4D08-8970-5F962AA38982}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

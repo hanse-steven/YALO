@@ -1,5 +1,5 @@
 ﻿@page "/config"
-@using YALO.DTOs
+@using YALO.Domain.Models
 @rendermode InteractiveServer
 
 <PageTitle>Config</PageTitle>
@@ -9,7 +9,7 @@
     
     <MudPaper Elevation="5" Class="rounded">
         <div class="screen" id="screen" data-width="1920" data-height="1080" style="aspect-ratio: 1920/1080;">
-            @foreach (ModuleDTO m in _modules)
+            @foreach (Module m in _modules)
             {
             <div
                 id="@m.Id"
@@ -19,7 +19,7 @@
                     left: @(m.X)px;
                     width: @(m.Width)px;
                     height: @(m.Height)px;
-                    background-color: @(m.Color);
+                    background-color: yellowgreen;
                     text-align: center;
                     text-wrap: auto;
                     "
@@ -28,7 +28,7 @@
                 data-top="@m.Y"
                 data-left="@m.X"
                 onmousedown="@(() => SelectModule(m))"
-            ><p>@m.Name</p>
+            ><p>@m.DisplayName</p>
             </div>
             }
         </div>
@@ -59,17 +59,16 @@
             </MudStack>
             <MudStack Class="pb-3" Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexEnd">
                 <MudFab Color=@Color.Primary StartIcon=@Icons.Material.Filled.Deselect Size="Size.Medium" @onclick="UnselectItem" />
-                <MudFab Color=@Color.Warning StartIcon=@Icons.Material.Filled.Edit Size="Size.Medium"/>
+                <MudFab Color=@Color.Warning StartIcon=@Icons.Material.Filled.Edit Size="Size.Medium" @onclick="EditModule"/>
                 <MudFab Color=@Color.Error StartIcon=@Icons.Material.Filled.Delete Size="Size.Medium" @onclick="DeleteModule"/>
                 <MudFab Color=@Color.Success StartIcon=@Icons.Material.Filled.Save OnClick="SavePosition" Size="Size.Medium"/>
             </MudStack>
-            
         }
         @if (_selected is null)
         {
             <MudStack Class="pb-3" Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexEnd">
                 <MudFab Color=@Color.Success StartIcon=@Icons.Material.Filled.Save OnClick="SavePosition" Size="Size.Medium"/>
-                <MudFab Color=@Color.Primary StartIcon=@Icons.Material.Filled.Add Label="Ajouter un module"/>
+                <MudFab Color=@Color.Primary StartIcon=@Icons.Material.Filled.Add OnClick="AddModule" Label="Ajouter un module"/>
             </MudStack>
         }
     </div>

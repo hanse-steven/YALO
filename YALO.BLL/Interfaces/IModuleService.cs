@@ -1,8 +1,9 @@
-﻿using YALO.BLL.Models;
+﻿using YALO.Domain.Models;
 
 namespace YALO.BLL.Interfaces;
 
 public interface IModuleService
 {
-    IEnumerable<Module> GetActiveModules();
+    public void SaveAll(IEnumerable<Module> modules);
+    public IEnumerable<Module> LoadData();
 }

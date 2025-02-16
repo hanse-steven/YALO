@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
 using YALO.BLL.Interfaces;
-using YALO.BLL.Services;
-using YALO.Mappers;
+using YALO.Domain.Models;
+using YALO.Components.Dialogs;
 
 namespace YALO.Components.Pages;
 
@@ -15,20 +15,13 @@ public partial class Config
     [Inject] private IDialogService _dialogService { get; set; }
     
     private IJSObjectReference JsReference { get; set; }
-    private ModuleDTO? _selected = null;
-    private List<ModuleDTO> _modules { get; set; } = [];
+    private Module? _selected = null;
+
+    private List<Module> _modules { get; set; } = [];
 
     protected override void OnInitialized()
     {
-        _modules = _moduleService.GetActiveModules().Select(m => m.ToDTO()).ToList();
-        
-        foreach (ModuleDTO module in _modules)
-        {
-            foreach ((string? key, ParameterDTO? value) in module.Parameters)
-            {
-                Console.Out.WriteLineAsync($"{key}: {value}");
-            }
-        }
+        _modules = _moduleService.LoadData().ToList();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -40,21 +33,28 @@ public partial class Config
         }
         else
         {
+            await JsReference.InvokeVoidAsync("addListenerRectangle");
             await JsReference.InvokeVoidAsync("resize");
         }
     }
     
     public async Task SavePosition()
     {
-        List<ModuleDTO> modules = [];
-        foreach (var moduleDto in await JsReference.InvokeAsync<ModuleDTO[]>("getPositionDimension"))
+        foreach (PositionDimension pd in await JsReference.InvokeAsync<PositionDimension[]>("getPositionDimension"))
         {
-            modules.Add(moduleDto);
+            Module? module = _modules.FirstOrDefault(m => m.Id == Guid.Parse(pd.Id));
+            if (module is not null)
+            {
+                module.X = pd.X;
+                module.Y = pd.Y;
+                module.Width = pd.Width;
+                module.Height = pd.Height;
+            }
         }
-        //_moduleService.SaveAll(modules.Select(m => m.ToModel()));
+        _moduleService.SaveAll(_modules);
     }
     
-    private void SelectModule(ModuleDTO m)
+    private void SelectModule(Module m)
     {
         this._selected = m; 
         StateHasChanged();
@@ -65,6 +65,47 @@ public partial class Config
         this._selected = null;
         JsReference.InvokeVoidAsync("unselectItem");
         StateHasChanged();
+    }
+    
+    private async Task AddModule()
+    {
+        DialogOptions options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            FullWidth = true
+        };
+        IDialogReference dialog = await _dialogService.ShowAsync<AddModule>("Ajouter un module", options);
+        DialogResult? result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            Module module = await dialog.GetReturnValueAsync<Module>();
+            _modules.Add(module);
+        }
+    }
+
+    private async Task EditModule()
+    {
+        DialogOptions options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            FullWidth = true
+        };
+        DialogParameters parameters = new DialogParameters
+        {
+            { "Module", _selected }
+        };
+        IDialogReference dialog = await _dialogService.ShowAsync<EditModule>("Modifier un module", parameters, options);
+        DialogResult? result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            Module module = await dialog.GetReturnValueAsync<Module>();
+            Module? moduleSelected = _modules.Find(m => m.Id == _selected.Id);
+            if (moduleSelected is not null)
+            {
+                moduleSelected.Name = module.Name;
+                moduleSelected.Parameters = module.Parameters;
+            }
+        }
     }
 
     private async Task DeleteModule()
@@ -77,8 +118,11 @@ public partial class Config
                 yesText: "Oui", 
                 cancelText: "Non"
             );
-            if (result == true) ;
-            //this._moduleService.Delete(_selected.Id);
+            if (result == true)
+            {
+                this._modules.RemoveAll(m => m.Id == _selected.Id);
+                UnselectItem();
+            }
         }
     }
 
@@ -86,8 +130,8 @@ public partial class Config
     {
         if (_selected is not null)
         {
-            ModuleDTO? moduleSelected = _modules.Find(m => m.Id == _selected.Id);
-
+            Module? moduleSelected = _modules.Find(m => m.Id == _selected.Id);
+            
             if (moduleSelected is not null)
             {
                 moduleSelected.Width += value;
@@ -100,8 +144,8 @@ public partial class Config
     {
         if (_selected is not null)
         {
-            ModuleDTO? moduleSelected = _modules.Find(m => m.Id == _selected.Id);
-
+            Module? moduleSelected = _modules.Find(m => m.Id == _selected.Id);
+            
             if (moduleSelected is not null)
             {
                 moduleSelected.Height += value;

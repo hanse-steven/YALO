@@ -1,7 +1,26 @@
 ﻿@page "/"
+@using YALO.Components.Fragments
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Acceuil</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<MudContainer Class="mt-16">
+    <MudGrid Class="mt-8" Spacing="4">
+        <MudItem xs="12" sm="6">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" StartIcon="@Icons.Material.Filled.Settings" Href="/config" >Configuration des modules</MudButton>
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" StartIcon="@Icons.Material.Filled.BarChart">Graphique de données</MudButton>
+        </MudItem>
+    </MudGrid>
+    <MudGrid Class="mt-8" Spacing="4">
+        <MudItem xs="12" sm="6" md="4">
+            <Sensor SensorName="t1" SensorAlias="Chambre" Color="Color.Primary" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <Sensor SensorName="t2" SensorAlias="Salon" Color="Color.Secondary" />
+        </MudItem>
+        <MudItem xs="12" sm="12" md="4">
+            <Sensor SensorName="t3" SensorAlias="Chambre2" Color="Color.Tertiary" />
+        </MudItem>
+    </MudGrid>
+</MudContainer>

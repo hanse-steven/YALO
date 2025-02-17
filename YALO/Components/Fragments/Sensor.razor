@@ -1,0 +1,19 @@
+﻿<MudCard Elevation="25" Class="rounded-lg pb-4 shadow-lg transition-transform transform hover:scale-105">
+    <MudCardHeader Class="bg-secondary text-white">
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6" GutterBottom="true" Align="Align.Center">@SensorAlias</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent Class="bg-gray-100">
+        <MudGrid Justify="Justify.SpaceEvenly" Spacing="2">
+            <MudItem xs="6" Class="d-flex flex-column align-center justify-center">
+                <MudText Typo="Typo.h4" Class="text-secondary">@(Temperature)°C</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.Thermostat" Color="@Color" Size="Size.Large"/>
+            </MudItem>
+            <MudItem xs="6" Class="d-flex flex-column align-center justify-center">
+                <MudText Typo="Typo.h4" Class="text-secondary">@(Humidity)%</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.Opacity" Color="@Color" Size="Size.Large"/>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>

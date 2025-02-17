@@ -10,4 +10,9 @@
       <ProjectReference Include="..\YALO.Domain\YALO.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="InfluxDB.Client" Version="4.18.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    </ItemGroup>
+
 </Project>

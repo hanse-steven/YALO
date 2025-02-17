@@ -18,38 +18,34 @@ public partial class Sensor
     
     [Inject] private ISensorService _sensorService { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        foreach (SensorData sensorData in this._sensorService.GetSensors(SensorName))
-        {
-            if (sensorData.Field == "t")
-            {
-                this.Temperature = sensorData.Value?.ToString("F0") ?? "N/A";
-            }
-            else if (sensorData.Field == "h")
-            {
-                this.Humidity = sensorData.Value?.ToString("F0") ?? "N/A";
-            }
-        }
-        this._timer = new Timer(UpdateSensorData, null, 15000, 15000);
+        await UpdateSensorDataAsync();
+        _timer = new Timer(async _ => await UpdateSensorDataAsync(), null, 15000, 15000);
     }
     
-    private void UpdateSensorData(object state)
+    private async Task UpdateSensorDataAsync()
     {
-        InvokeAsync(() =>
+        try
         {
-            foreach (SensorData sensorData in this._sensorService.GetSensors(SensorName))
+            var sensorDataList = await Task.Run(() => _sensorService.GetSensors(SensorName));
+            foreach (SensorData sensorData in sensorDataList)
             {
                 if (sensorData.Field == "t")
                 {
-                    this.Temperature = sensorData.Value?.ToString("F0") ?? "N/A";
+                    Temperature = sensorData.Value?.ToString("F0") ?? "N/A";
                 }
                 else if (sensorData.Field == "h")
                 {
-                    this.Humidity = sensorData.Value?.ToString("F0") ?? "N/A";
+                    Humidity = sensorData.Value?.ToString("F0") ?? "N/A";
                 }
             }
-            StateHasChanged();
-        });
+            InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or handle it as needed
+            Console.WriteLine($"Error updating sensor data: {ex.Message}");
+        }
     }
 }

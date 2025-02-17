@@ -17,17 +17,30 @@ public class SensorRepository : ISensorRepository
         this._bucket = configuration["InfluxDB:Bucket"];
     }
     
-    public List<SensorData>? GetSensors(string sensorName)
+    public List<SensorData>? GetSensors(string sensorName, string range = "-5d")
     {
         using var client = new InfluxDBClient(_host, _token);
 
         var flux =
             $"from(bucket: \"{_bucket}\") " +
-            $"|> range(start: -5d)" +
+            $"|> range(start: {range})" +
             $"|> filter(fn: (r) => r[\"_field\"] == \"h\" or r[\"_field\"] == \"t\")" +
             $"|> filter(fn: (r) => r[\"sensor_name\"] == \"{sensorName}\")" + 
             $"|> group(columns: [\"_field\"])" + 
             $"|> last()";
+
+        return client.GetQueryApi().QueryAsync<SensorData>(flux, "makerhub").Result;
+    }
+
+    public List<SensorData>? GetHistorySensors(string sensorName, string range = "-5d")
+    {
+        using var client = new InfluxDBClient(_host, _token);
+
+        var flux =
+            $"from(bucket: \"{_bucket}\") " +
+            $"|> range(start: {range})" +
+            $"|> filter(fn: (r) => r[\"_field\"] == \"h\" or r[\"_field\"] == \"t\")" +
+            $"|> filter(fn: (r) => r[\"sensor_name\"] == \"{sensorName}\")";
 
         return client.GetQueryApi().QueryAsync<SensorData>(flux, "makerhub").Result;
     }

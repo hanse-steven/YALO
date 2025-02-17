@@ -12,8 +12,13 @@ public class SensorService : ISensorService
         _sensorRepository = sensorRepository;
     }
 
-    public IEnumerable<SensorData>? GetSensors(string sensorName)
+    public IEnumerable<SensorData>? GetSensors(string sensorName, string range = "-5d")
     {
-        return this._sensorRepository.GetSensors(sensorName);
+        return this._sensorRepository.GetSensors(sensorName, range);
+    }
+    
+    public List<SensorData>? GetHistorySensors(string sensorName, string range = "-5d")
+    {
+        return this._sensorRepository.GetHistorySensors(sensorName, range);
     }
 }
